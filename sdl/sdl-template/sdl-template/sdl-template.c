@@ -1,12 +1,48 @@
 ﻿
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 #include <SDL.h>
 
-void set_pixel(SDL_Surface* surface, int x, int y, Uint32 pixel)
+
+// ピクセル領域を直接操作する
+void set_pixel_(SDL_Surface* surface, int x, int y, Uint32 abgr32)
 {
     Uint32* const target_pixel = (Uint32*)((Uint8*)surface->pixels
         + y * surface->pitch
         + x * surface->format->BytesPerPixel);
-    *target_pixel = pixel;
+    *target_pixel = abgr32;
+}
+
+// ピクセル領域を直接操作する
+void set_pixel(SDL_Surface* surface, int x, int y, uint32_t abgr32) {
+    uint32_t* pixels = surface->pixels;
+    pixels[x + y * 640] = abgr32;
+}
+
+uint32_t rgba_to_abgr32(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+    uint32_t ret = 0x00000000;
+    ret = ret + a;
+    ret = ret << 8;
+    ret = ret + b;
+    ret = ret << 8;
+    ret = ret + g;
+    ret = ret << 8;
+    ret = ret + r;
+    return ret;
+}
+
+uint32_t rgb_to_abgr32(uint8_t r, uint8_t g, uint8_t b) {
+    return rgba_to_abgr32(r, g, b, 255);
+}
+
+void init_rnd() {
+    srand((unsigned int)time(NULL));
+}
+
+int rnd(int min, int max) {
+    return min + rand() % max;
 }
 
 int main(int argc, char* argv[])
@@ -37,20 +73,22 @@ int main(int argc, char* argv[])
     int width = 640;
     int height = 480;
 
-    surface = SDL_CreateRGBSurface(0, width, height, 32,
-        rmask, gmask, bmask, amask);
+    //uint8_t* pixels = calloc(100, sizeof(uint8_t));
+    //surface = SDL_CreateRGBSurfaceWithFormatFrom(pixels,width,height,24,3 * 100, SDL_PIXELFORMAT_RGB24);
+
+    surface = SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask);
     if (surface == NULL) {
-        //SDL_Log("CreateRGBSurface 失敗: %s", SDL_GetError());
+        printf("CreateRGBSurface 失敗: %s", SDL_GetError());
         exit(1);
     }
 
-    set_pixel(surface, 100, 100, 0xFFFFFFFF);
-
-    //int* pixels = surface->pixels;
-    //for (int i = 0; i < 1000; i++) {
-    //    pixels[i] = 255;
-    //}
-
+    // ピクセル操作関数を使ってランダムノイズを生成する
+    for (int y = 0; y < 480; y++) {
+        for (int x = 0; x < 640; x++) {
+            uint32_t abgr = rgb_to_abgr32(rnd(0,255), rnd(0, 255), rnd(0, 255));
+            set_pixel(surface, x, y, abgr);
+        }
+    }
 
     /* 画像読み込み */
     //image = SDL_LoadBMP("sample.bmp");
@@ -77,6 +115,7 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(surface);
 
 	SDL_Quit();
+    //free(pixels);
 
 	return 0;
 }
