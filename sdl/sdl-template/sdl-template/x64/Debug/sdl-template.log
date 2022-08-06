@@ -1,4 +1,3 @@
 ﻿  sdl-template.c
 SDLmain.lib(SDL_win32_main.obj) : warning LNK4099: PDB 'SDLmain.pdb' が 'SDLmain.lib(SDL_win32_main.obj)' で、または 'C:\Users\dolph\Documents\GitHub\one-dot\sdl\sdl-template\x64\Debug\SDLmain.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-MSVCRTD.lib(initializers.obj) : warning LNK4098: defaultlib 'msvcrt.lib' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。
   sdl-template.vcxproj -> C:\Users\dolph\Documents\GitHub\one-dot\sdl\sdl-template\x64\Debug\sdl-template.exe

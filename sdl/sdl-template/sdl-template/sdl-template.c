@@ -2,16 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
 #include <SDL.h>
 
-
 // ピクセル領域を直接操作する
-void set_pixel_(SDL_Surface* surface, int x, int y, Uint32 abgr32)
-{
-    Uint32* const target_pixel = (Uint32*)((Uint8*)surface->pixels
-        + y * surface->pitch
-        + x * surface->format->BytesPerPixel);
+void set_pixel_(SDL_Surface* surface, int x, int y, Uint32 abgr32) {
+    Uint32* const target_pixel = (Uint32*)((Uint8*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
     *target_pixel = abgr32;
 }
 
@@ -21,6 +16,7 @@ void set_pixel(SDL_Surface* surface, int x, int y, uint32_t abgr32) {
     pixels[x + y * 640] = abgr32;
 }
 
+// RGBA順をABGR順の32bit値に置き換える
 uint32_t rgba_to_abgr32(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
     uint32_t ret = 0x00000000;
     ret = ret + a;
@@ -45,19 +41,17 @@ int rnd(int min, int max) {
     return min + rand() % max;
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 	SDL_Init(SDL_INIT_EVERYTHING);
-
 	SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE);
 
-    /* OpenGLのテクスチャとして使うために
-   各ピクセルがR,G,B,A順の32bitサーフェイスを生成する */
+    // OpenGLのテクスチャとして使うために
+    // 各ピクセルがR,G,B,A順の32bitサーフェイスを生成する
     SDL_Surface* surface;
     Uint32 rmask, gmask, bmask, amask;
 
-    /* SDLはピクセルを32bitの値として解釈する.
-       よって, マスクはマシンのエンディアン(バイト順)に依存する */
+    // SDLはピクセルを32bitの値として解釈する.
+    // よって, マスクはマシンのエンディアン(バイト順)に依存する
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     rmask = 0xff000000;
     gmask = 0x00ff0000;
@@ -93,27 +87,24 @@ int main(int argc, char* argv[])
     /* 画像読み込み */
     //image = SDL_LoadBMP("sample.bmp");
 
-    /* 画像の矩形情報設定 */
+    // 画像の矩形情報設定 
     SDL_Rect rect, scr_rect;
     rect.x = 0;
     rect.y = 0;
     rect.w = 640;
     rect.h = 480;
 
-    /* 画像配置位置情報の設定 */
+    // 画像配置位置情報の設定
     scr_rect.x = 0;
     scr_rect.y = 0;
 
-    /* サーフェスの複写 */
+    // サーフェスの複写
     SDL_BlitSurface(surface, &rect, SDL_GetVideoSurface(), &scr_rect);
 
-    /* サーフェスフリップ */
+    // サーフェスフリップ
     SDL_Flip(SDL_GetVideoSurface());
-
 	SDL_Delay(3000);
-
     SDL_FreeSurface(surface);
-
 	SDL_Quit();
     //free(pixels);
 
