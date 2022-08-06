@@ -1,4 +1,7 @@
-﻿#include <stdio.h>
+﻿// macos:
+// clang -std=c99 -oduktape-one-dot duktape-one-dot.c duktape.c -lm
+//
+#include <stdio.h>
 #include "duktape.h"
 
 int main(int argc, char* argv[]) {
