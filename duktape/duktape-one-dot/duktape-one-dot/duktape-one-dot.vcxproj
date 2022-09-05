@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)src;$(SolutionDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,15 +128,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="duktape-one-dot.c" />
-    <ClCompile Include="duktape.c" />
+    <ClCompile Include="..\include\duktape.c" />
+    <ClCompile Include="..\src\duktape-one-dot.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="duktape.h" />
-    <ClInclude Include="duk_config.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="duk_source_meta.json" />
+    <ClInclude Include="..\include\duktape.h" />
+    <ClInclude Include="..\include\duk_config.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

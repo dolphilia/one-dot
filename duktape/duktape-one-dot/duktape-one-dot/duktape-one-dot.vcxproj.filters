@@ -15,24 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="duktape-one-dot.c">
+    <ClCompile Include="..\src\duktape-one-dot.c">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="duktape.c">
+    <ClCompile Include="..\include\duktape.c">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="duk_config.h">
+    <ClInclude Include="..\include\duk_config.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="duktape.h">
+    <ClInclude Include="..\include\duktape.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="duk_source_meta.json">
-      <Filter>ソース ファイル</Filter>
-    </None>
   </ItemGroup>
 </Project>
